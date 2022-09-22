@@ -200,7 +200,6 @@ router.get('/editUser/:id', isLogin, (req, res) => {
 
   conn.query(sql, [mid], (err, result) => {
       if (err) throw err;
-
       res.render('addUser', { user: result[0] });
   });
 });
@@ -220,7 +219,6 @@ router.post('/editUser/:id', isLogin, (req, res) => {
 
   conn.query(sql, [update_name, update_user, update_pass, update_level, mid], (err, result) => {
       if (err) throw err;
-
       res.redirect('/user');
   });
 });
@@ -235,12 +233,92 @@ router.get('/deleteUser/:id', isLogin, (req, res) => {
   let sql = "DELETE FROM tb_user WHERE id=? ";
   conn.query(sql, [mid], (err, result) => {
       if (err) throw err;
-
       res.redirect('/user');
   });
 });
 
 
+
+/* GET Show Group Product Page. */
+router.get('/groupProduct', isLogin, (req, res) => {
+
+  let sql = "SELECT * FROM tb_group_product";
+
+  conn.query(sql, (err, result) => {
+      if (err) throw err;
+      res.render('groupProduct', { groupProducts: result });
+  });
+});
+
+
+
+/* GET Add Group Product Page. */
+router.get('/addGroupProduct', isLogin, (req, res) => {
+
+  res.render('addGroupProduct', { groupProduct: {} });
+});
+
+
+
+/* POST Add Group Product Execute. */
+router.post('/addGroupProduct', isLogin, (req, res) => {
+
+  let g_name = req.body['name'];
+
+  if (g_name) {
+      let sql = "INSERT INTO tb_group_product SET name=?";
+      conn.query(sql, [g_name], (err, result) => {
+          if (err) throw err;
+          res.redirect('/groupProduct');
+      });
+  } else {
+      res.send('กรุณากรอกชื่อประเภทสินค้าก่อนนะคะ');
+  }
+});
+
+
+
+/* GET Edit Group Product Page. */
+router.get('/editGroupProduct/:id', isLogin, (req, res) => {
+
+  let gid = req.params['id'];
+  let sql = "SELECT * FROM tb_group_product WHERE id=?";
+  conn.query(sql, [gid], (err, result) => {
+      if (err) throw err;
+      res.render('addGroupProduct', { groupProduct: result[0] });
+  });
+});
+
+
+
+/* POST Edit Group Product Execute. */
+router.post('/editGroupProduct/:id', isLogin, (req, res) => {
+
+  let gid = req.params['id'];
+  let gName = req.body['name'];
+  let sql = "UPDATE tb_group_product SET name=? WHERE id=? ";
+  conn.query(sql, [gName, gid], (err, result) => {
+      if (err) throw err;
+      res.redirect('/groupProduct');
+  });
+});
+
+
+
+
+/* GET Delete Group Product Execute. */
+router.get('/deleteGroupProduct/:id', isLogin, (req, res) => {
+
+  let did = req.params['id'];
+  let sql = "DELETE FROM tb_group_product WHERE id=? ";
+
+  conn.query(sql, [did], (err, result) => {
+      if (err) throw err;
+
+      res.redirect('/groupProduct');
+  });
+
+});
 
 
 

@@ -1,0 +1,65 @@
+<%- include('header') %>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="h1 sarabun-600 mt-5 text-center text-info col-12">
+                Group Product List
+            </div>
+
+            <div class="card mt-3" style="width: 40rem;">
+                <div class="card-body">
+                    <div class="card-title">
+                        ประเภทสินค้า
+                    </div>
+
+                    <div class="mt-3">
+                        <a class="btn btn-info" href="/addGroupProduct">
+                            <span class=" material-icons material-symbols-outlined mr-2 ">
+                                add
+                                </span> เพิ่มประเภทสินค้า
+                        </a>
+
+
+                        <table class="table table-bordered table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th width="140"></th>
+                                    <th>ชื่อประเภทสินค้า</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% groupProducts.forEach((groupProduct) => { %>
+
+                                    <tr>
+                                        <td class="text-center">
+                                            <a class="btn btn-info" href="/editGroupProduct/<%= groupProduct.id %>">
+                                                <span class="material-icons material-symbols-outlined ">
+                                                    edit
+                                                    </span>
+                                            </a>
+                                            <a class="btn btn-danger" href="/deleteGroupProduct/<%= groupProduct.id %>" onclick="return confirm('คุณต้องการลบจริงๆใช่มั้ยคะ ?')">
+                                                <span class="material-icons material-symbols-outlined ">
+                                                    close
+                                                    </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <%= groupProduct.name %>
+                                        </td>
+                                    </tr>
+
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <%- include('footer') %>
