@@ -87,6 +87,16 @@
 
     <div class="h4 float-left">E-Commerce Back Office</div>
     <div class="float-right">
+        [ <%= session.name %> ]
+
+        <a class="btn btn-info sarabun-500" href="/changeProfile">
+            <span class="material-symbols-outlined material-icons">
+                settings
+                </span>
+                ข้อมูลส่วนตัว
+
+        </a>
+
         <a class="btn btn-danger sarabun-500" href="/logout" onclick="return confirm('Are tou sure ?')">
             <span class="material-symbols-outlined material-icons">
                 logout

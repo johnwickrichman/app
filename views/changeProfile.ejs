@@ -1,0 +1,60 @@
+<%- include('header') %>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="h1 sarabun-600 mt-5 text-center text-info col-12">
+                แก้ไขข้อมูลสมาชิก
+            </div>
+
+
+
+            <div class="card mt-3 mb-5" style="width: 30rem;">
+                <div class=" card-body ">
+
+                    <form action="/changeProfile" method="post">
+                        <div class="mt-3 ">
+                            <label class="sarabun-300 ">Name : </label>
+                            <input type="text " name="name" class="form-control" value="<%= user.name %>">
+                        </div>
+                        <div class="mt-3 ">
+                            <label class="sarabun-300 ">Username : </label>
+                            <input type="text " name="user" class="form-control" value="<%= user.user %>">
+                        </div>
+                        <div class="mt-3 ">
+                            <label class="sarabun-300 ">Password : </label>
+                            <span class="sarabun-300 text-danger"> หากไม่ได้กรอก ระบบจะใช้รหัสเดิมที่เคยตั้งไว้นะคะ</span>
+                            <input type="password" name="pass" class="form-control">
+                        </div>
+
+                        <div class=" row mt-3 mb-2 justify-content-center ">
+                            <button class="btn btn-info sarabun-500 " type="submit ">
+                                <span class="material-icons material-symbols-outlined mr-2 ">
+                                    done
+                                    </span> บันทึกข้อมูล
+                            </button>
+                        </div>
+
+                        <% if (session.message) { %>
+                            <div class="alert alert-success alert-dismissible fade show mt-3">
+                                <%= session.message %>
+                                    <%= session.message = undefined %>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                            <% } %>
+                    </form>
+
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+
+    <%- include('footer') %>
