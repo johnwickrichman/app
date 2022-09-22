@@ -18,6 +18,13 @@ router.use(
   })
 )
 
+
+router.use( (req, res, next) => {
+  res.locals.session = req.session;
+  next();
+})
+
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" })
@@ -67,6 +74,12 @@ function isLogin(req, res, next) {
 /* GET Home page. */
 router.get("/home", isLogin, (req, res) => {
   res.render("home")
+})
+
+
+router.get("/logout", isLogin, (req, res) => {
+  req.session.destroy();
+  res.redirect('/login')
 })
 
 module.exports = router
