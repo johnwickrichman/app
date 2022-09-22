@@ -160,4 +160,90 @@ router.get('/user', isLogin, (req, res) => {
 });
 
 
+
+
+/* GET Add User Page */
+router.get('/addUser', isLogin, (req, res) => {
+  res.render('addUser', { user: {} });
+});
+
+
+
+/* POST Add User Execute */
+router.post('/addUser', isLogin, (req, res) => {
+
+  let update_name = req.body['name'];
+  let update_user = req.body['user'];
+  let update_pass = req.body['pass'];
+  let update_level = req.body['level'];
+
+  if (update_name && update_user && update_pass && update_level) {
+
+      let sql = "INSERT INTO tb_user SET name=? , user=? , pwd=?, level=?";
+      conn.query(sql, [update_name, update_user, update_pass, update_level], (err, result) => {
+          if (err) throw err;
+          res.redirect('/user');
+      });
+  } else {
+      res.send('กรุณากรอกข้อมูลให้ครบทุกช่องนะคะ');
+
+  }
+});
+
+
+
+/* GET Edit User Page */
+router.get('/editUser/:id', isLogin, (req, res) => {
+
+  let mid = req.params['id'];
+  let sql = "SELECT * FROM tb_user WHERE id=?";
+
+  conn.query(sql, [mid], (err, result) => {
+      if (err) throw err;
+
+      res.render('addUser', { user: result[0] });
+  });
+});
+
+
+
+/* POST Edit User Execute */
+router.post('/editUser/:id', isLogin, (req, res) => {
+
+  let mid = req.params['id'];
+  let update_name = req.body['name'];
+  let update_user = req.body['user'];
+  let update_pass = req.body['pass'];
+  let update_level = req.body['level'];
+
+  let sql = "UPDATE tb_user SET name=? , user=? , pwd=? , level=? WHERE id=?";
+
+  conn.query(sql, [update_name, update_user, update_pass, update_level, mid], (err, result) => {
+      if (err) throw err;
+
+      res.redirect('/user');
+  });
+});
+
+
+
+/* Delete user Execute */
+router.get('/deleteUser/:id', isLogin, (req, res) => {
+
+  let mid = req.params['id'];
+
+  let sql = "DELETE FROM tb_user WHERE id=? ";
+  conn.query(sql, [mid], (err, result) => {
+      if (err) throw err;
+
+      res.redirect('/user');
+  });
+});
+
+
+
+
+
+
+
 module.exports = router;
