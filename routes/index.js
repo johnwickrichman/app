@@ -147,4 +147,17 @@ router.post("/changeProfile", isLogin, (req, res) => {
 })
 
 
+
+/* Show All User Page. */
+router.get('/user', isLogin, (req, res) => {
+  let sql = "SELECT * FROM tb_user ORDER BY id DESC";
+  conn.query(sql, (err, result) => {
+      if (err) throw err;
+      res.render('user', { users: result });
+
+  })
+
+});
+
+
 module.exports = router;

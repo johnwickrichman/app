@@ -1,0 +1,77 @@
+<%- include('header') %>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="h1 sarabun-600 mt-5 text-center text-info col-12">
+                จัดการข้อมูลลูกค้า
+            </div>
+
+            <div class="card w-75 mt-4 mb-4">
+                <div class="card-body">
+                    <div class="card-title">
+                        <span class="material-icons material-symbols-outlined mr-2">
+                            person
+                            </span> ผู้ใช้งานระบบ
+                    </div>
+
+                    <a class="btn btn-info mt-3" href="/adduser">
+                        <span class=" material-icons material-symbols-outlined mr-2 ">
+                            add
+                            </span>เพิ่มรายการ</a>
+
+                    <table class="table table-bordered table-striped mt-3 ">
+                        <thead>
+                            <tr>
+                                <th width="140px "></th>
+                                <th class="text-center ">ชื่อ</th>
+                                <th width="200px " class="text-center ">username</th>
+                                <th width="100px " class="text-center ">Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <% users.forEach((user) => { %>
+                                <tr>
+                                    <td>
+                                        <a class="btn btn-info " href="/editUser/<%= user.id %>">
+                                            <span class="material-icons material-symbols-outlined ">
+                                                edit
+                                                </span>
+                                        </a>
+                                        <a class="btn btn-danger " href="/deleteUser/<%= user.id %>" onclick="return confirm('คุณต้องการลบจริงๆใช่มั้ยคะ ?')">
+                                            <span class="material-icons material-symbols-outlined ">
+                                                close
+                                                </span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <%= user.name %>
+                                    </td>
+                                    <td class="text-center ">
+                                        <%= user.user %>
+                                    </td>
+                                    <td class="text-center ">
+                                        <%= user.level %>
+                                    </td>
+                                </tr>
+
+                                <%  }); %>
+
+
+
+
+                        </tbody>
+                    </table>
+
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <%- include('footer') %>
