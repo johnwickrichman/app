@@ -1249,6 +1249,22 @@ router.post('/exportFromStock',isLogin,async (req,res) => {
 
 
 
+/* GET Delete Export From Stock Execute. */
+router.get('/deleteExportToStock/:id', (req,res) => {
+
+  id = req.params['id'];
+  let sql ="DELETE FROM tb_stock_out WHERE id = ?";
+
+  conn.query(sql,[id], (err, result) => {
+      if (err) throw err;
+
+      res.redirect('/exportFromStock');
+  })
+});
+
+
+
+
 
 
 
