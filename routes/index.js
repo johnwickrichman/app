@@ -807,6 +807,21 @@ router.get('/confirmOrderSuccess', (req, res) => {
 
 
 
+/* GET Show Order Page. */
+router.get('/order', isLogin, (req, res) => {
+
+  let sql = "SELECT * FROM tb_order ORDER BY id DESC";
+
+  conn.query(sql, (err, result) => {
+      if (err) throw err;
+
+      res.render('order', { orders: result });
+  });
+
+});
+
+
+
 
 
 
