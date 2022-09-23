@@ -1112,6 +1112,66 @@ router.post('/trackOrder', (req,res) => {
 
 
 
+/* GET Import to Stock Page. */
+router.get('/importToStock',isLogin,(req,res) => {
+
+  let sql = ""; 
+  sql += " SELECT tb_product.barcode, tb_product.name, ";
+  sql += " tb_stock_in.qty, tb_stock_in.created_date, tb_stock_in.id, tb_stock_in.remark";
+  sql += " FROM tb_stock_in";
+  sql += " LEFT JOIN tb_product ON tb_stock_in.product_id = tb_product.id";
+
+  conn.query(sql, (err, result) => {
+      if (err) throw err;
+
+      res.render('importToStock', {stockIn: result});
+  })
+
+
+});
+
+
+
+/* POST Import to Stock Execute. */
+router.post('/importToStock' , isLogin , async (req,res) => {
+
+  let barcode = req.body['product_barcode'];
+  let qty = req.body['qty'];
+  let remark = req.body['remark'];
+
+  let conn2 = require('./connect2');
+
+  let sql = "SELECT id FROM tb_product WHERE barcode = ?";
+
+  try {
+
+      let [product, fields] = await conn2.query(sql,[barcode]);
+      console.log(product);
+
+      if ( product.length > 0) {
+          
+          let id = product[0].id;
+
+          sql = "INSERT INTO tb_stock_in SET product_id=? , qty=? , created_date=NOW() , remark=? ";
+
+          conn2.query(sql,[id , qty ,remark]);
+
+          res.redirect('/importToStock');
+
+      } else {
+          res.send("Barcode not found !!");
+      }
+
+  } catch (e) {
+      res.send("Error : " + e);
+  }
+
+});
+
+
+
+
+
 
 
 
