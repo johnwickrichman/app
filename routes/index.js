@@ -699,6 +699,51 @@ router.get('/deleteItemInCart/:id', (req, res) => {
 
 
 
+/* GET Edit Cart Page. */
+router.get('/editItemInCart/:id', (req, res) => {
+
+  let sql = "SELECT * FROM tb_product WHERE id=?";
+  let editID = req.params['id'];
+
+  conn.query(sql, [editID], (err, result) => {
+      if (err) throw err;
+
+      let product = result[0];
+      let cart = req.session.cart;
+
+      for (let i = 0; i < cart.length; i++) {
+          if (cart[i].product_id == product.id) {
+              product.qty = cart[i].qty;
+          }
+      }
+
+      res.render('editItemInCart', { product: product });
+  });
+});
+
+
+
+
+/* POST Edit Cart Execute. */
+router.post('/editItemInCart/:id', (req, res) => {
+
+  let editID = req.params['id'];
+  let cart = req.session.cart;
+  let newQty = req.body['qty'];
+
+  for (let i = 0; i < cart.length; i++) {
+      if (cart[i].product_id == editID) {
+          cart[i].qty = newQty;
+      }
+  }
+
+  req.session.cart = cart;
+
+  res.redirect('/myCart');
+});
+
+
+
 
 
 

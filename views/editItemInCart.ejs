@@ -1,0 +1,27 @@
+<%- include('header_index') %>
+
+    <div class="container">
+
+        <form method="post">
+            <div>
+                <img src="../images/<%= product.img %>" width="200">
+
+            </div>
+            <div>barcode:
+                <%= product.barcode %>
+            </div>
+            <div>รายการ :
+                <%= product.name %>
+            </div>
+            <div>ราคา :
+                <%= product.price %>
+            </div>
+            <div>จำนวน : <input type="text" name="qty" value="<%= product.qty %>" class="form-control"> </div>
+            <button type="submit" class="btn btn-info mt-3">บันทึกตระกร้าสินค้า</button>
+        </form>
+
+
+    </div>
+
+
+    <%- include('footer_index') %>
