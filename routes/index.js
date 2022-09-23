@@ -29,12 +29,14 @@ router.use(sessions({
 }));
 
 router.use((req, res, next) => {
+
   /* ทำให้ใช้ session ได้ทุกหน้า */
     res.locals.session = req.session;
 
     res.locals.numeral = numeral;
     res.locals.dayjs = dayjs;
     res.locals.dayFormat = dayFormat;
+
     next();
 });
 
@@ -43,9 +45,47 @@ router.use((req, res, next) => {
 
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
-})
+/* Show Homepage */
+router.get('/', async function(req, res, next) {
+
+  let conn2 = require('./connect2');
+
+  let search = [];
+
+  let sql = " SELECT * FROM tb_product ";
+  
+  if (req.query.search != undefined) {
+      sql += " WHERE name LIKE(?)";
+      search.push("%" + req.query.search + "%");
+  }
+
+  if (req.query.groupProductId != undefined) {
+
+      sql += " WHERE group_product_id = ?";
+      search.push(req.query.groupProductId);
+  }
+
+
+
+  sql += " ORDER BY id DESC";
+ 
+  try {
+      let [ products, fields] = await conn2.query(sql, [search]);
+
+      let sql2 = "SELECT * FROM tb_group_product ORDER BY name ASC";
+
+      let [ groupProducts, fieldsGroupProduct] = await conn2.query(sql2);
+
+
+      if (req.session.cart == undefined) {
+          req.session.cart = [];
+      }
+      res.render('index', { products: products, groupProducts: groupProducts });
+  } catch (e) {
+      res.send("Error : " + e);
+  }
+
+});
 
 /* GET login page. */
 router.get("/login", (req, res) => {
@@ -445,7 +485,6 @@ router.post('/editProduct/:id', isLogin, (req, res) => {
   let form = new formidable.IncomingForm();
 
   form.parse(req, (err, fields, file) => {
-
 
       let pGroupID = fields['group_product_id'];
       let pBarCode = fields['barcode'];
