@@ -881,6 +881,37 @@ router.get('/deleteOrder/:id',isLogin, (req,res) => {
 
 
 
+/* GET Pay Order Page. */
+router.get('/payOrder/:id',isLogin, (req,res) => {
+
+  let paiID = req.params['id'];
+
+  res.render('payOrder', {orderId:paiID});
+
+});
+
+
+
+
+/* GET Pay Order Execute. */
+router.post('/payOrder/:id', (req,res) => {
+
+  let orderID = req.params['id'];
+  let payDate = req.body['pay_date'];
+  let payRemark = req.body['pay_remark'];
+
+  let sql ="UPDATE tb_order SET pay_date=? , pay_remark=? WHERE id=?";
+
+  conn.query(sql, [payDate, payRemark, orderID], (err,result) => {
+      if (err) throw err;
+
+      res.render('payOrderSuccess');
+  })
+})
+
+
+
+
 
 
 

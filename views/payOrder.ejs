@@ -1,0 +1,29 @@
+<%- include('header') %>
+
+<div class="container">
+    <div class="mt-3">
+
+        <div class="h3 text-center mt-5 mb-2">บันทึกการชำระเงิน</div>
+        <form method="post">
+      
+          <div class="mt-3">
+            <label for=""> วันที่ชำระเงิน </label>
+            <input type="date" name="pay_date" class="form-control" />
+          </div>
+      
+          <div class="mt-3">
+              <label for=""> หมายเหตุเพิ่มเติม </label>
+              <input type="text" name="pay_remark" class="form-control" />
+            </div>
+      
+      
+          <div class="mt-3">
+            <button class="btn btn-info">บันทึก</button>
+          </div>
+        </form>
+      
+      
+      </div>
+</div>
+
+<%- include('footer') %>
