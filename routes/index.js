@@ -674,6 +674,31 @@ router.get('/myCart', async(req, res) => {
 
 
 
+/* GET Delete from Cart Execute. */
+router.get('/deleteItemInCart/:id', (req, res) => {
+
+  let deleteIDFromUser = req.params['id'];
+
+  let cart = req.session.cart;
+
+
+  for (let i = 0; i < cart.length; i++) {
+
+      let deleteCartID = cart[i].product_id;
+
+      if (deleteCartID == deleteIDFromUser) {
+          cart.splice(i, 1); // ลบ index ที่ i จำนวน 1 อัน
+      }
+  }
+
+  req.session.cart = cart;
+  res.redirect('/myCart');
+
+});
+
+
+
+
 
 
 
