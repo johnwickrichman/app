@@ -955,6 +955,47 @@ router.post('/sendOrder/:id', (req,res) => {
 
 
 
+/* GET Report Sale per Day Page. */
+router.get('/reportSalePerDay' , isLogin , async (req,res) => {
+
+  let conn2 = require('./connect2');
+
+  let year_current = dayjs().year();
+  let year = dayjs().year();
+  let month = dayjs().month() + 1 ;
+  let daysInMonth = dayjs(year + '/' + month + '/1').daysInMonth();
+
+  let arr = [];
+  let arrYears = [];
+  let arrMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+
+  if(req.query['year'] != undefined) {
+      year = req.query['year'];
+      month = req.query['month'];
+  }
+
+  for (let i = 1 ; i <= daysInMonth; i++) {
+      let sql = "";
+      sql += " SELECT SUM(qty * price) AS totalPrice FROM tb_order_detail";
+      sql += " LEFT JOIN tb_order ON tb_order.id = tb_order_detail.order_id";
+      sql += " WHERE DAY(tb_order.pay_date) = ?";
+      sql += " AND MONTH(tb_order.pay_date) = ?";
+      sql += " AND YEAR(tb_order.pay_date) = ?";
+
+      let [rows, fields] = await conn2.query(sql,[i, month, year]);
+
+      arr.push(rows[0].totalPrice);
+  }
+
+  for (let i = year_current-10; i <= year_current; i++) {
+      arrYears.push(i);
+  }
+
+  res.render('reportSalePerDay', {arr: arr, y: year, m: month,arrYears: arrYears, arrMonths: arrMonths });
+
+});
+
+
 
 
 
