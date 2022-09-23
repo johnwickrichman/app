@@ -912,6 +912,40 @@ router.post('/payOrder/:id', (req,res) => {
 
 
 
+/* GET Send Order Page. */
+router.get('/sendOrder/:id', (req,res) => {
+
+  let orderID = req.params['id'];
+
+  res.render('sendOrder', {orderID:orderID});
+})
+
+
+
+
+/* POST Send Order Execute. */
+router.post('/sendOrder/:id', (req,res) => {
+
+  let orderID = req.params['id'];
+  let sendDate = req.body['send_date'];
+  let sendRemark = req.body['send_remark'];
+  let trackName = req.body['track_name'];
+  let trackCode = req.body['track_code'];
+
+  let sql = "UPDATE tb_order SET send_date=?, track_name=?, track_code=?, send_remark=? WHERE id=?";
+
+  conn.query(sql, [sendDate, trackName, trackCode, sendRemark, orderID ], (err,result) => {
+      if (err) throw err;
+
+  })
+
+  res.render('sendOrderSuccess');
+})
+
+
+
+
+
 
 
 

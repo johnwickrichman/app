@@ -1,0 +1,37 @@
+<%- include('header') %>
+
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h4">หมายเลขออเดอร์สินค้า : <%= orderID %></div>
+
+      <form action="" method="post">
+        <div class="mt-3">
+          <label for="">ชื่อบริษัทขนส่ง</label>
+          <input type="text" name="track_name" class="form-control" />
+        </div>
+
+        <div class="mt-3">
+          <label for="">เลขติดตามพัสดุ</label>
+          <input type="text" name="track_code" class="form-control" />
+        </div>
+
+        <div class="mt-3">
+          <label for="">วันที่จัดส่ง</label>
+          <input type="date" name="send_date" class="form-control" />
+        </div>
+
+        <div class="mt-3">
+          <label for="">หมายเหตุ</label>
+          <input type="text" name="send_remark" class="form-control" />
+        </div>
+
+        <div class="mt-3">
+          <button type="submit" class="btn btn-info btn-lg">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') %>
