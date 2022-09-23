@@ -1171,6 +1171,22 @@ router.post('/importToStock' , isLogin , async (req,res) => {
 
 
 
+/* GET Delete Import to Stock Reccord. */
+router.get('/deleteImportToStock/:id', (req,res) => {
+
+  id = req.params['id'];
+  let sql ="DELETE FROM tb_stock_in WHERE id = ?";
+
+  conn.query(sql,[id], (err, result) => {
+      if (err) throw err;
+
+      res.redirect('/importToStock');
+  })
+});
+
+
+
+
 
 
 
