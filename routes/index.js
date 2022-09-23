@@ -589,6 +589,50 @@ router.get('/deleteProduct/:id', isLogin, (req, res) => {
 
 
 
+/* GET Add to Cart Execute. */
+router.get('/addToCart/:id', (req, res) => {
+
+  let cart = [];
+
+  let order = {
+      product_id: req.params['id'],
+      qty: 1
+  };
+
+  if (req.session.cart == null) {
+
+      //First Item
+      cart.push(order);
+
+  } else {
+
+      //Second Item
+      cart = req.session.cart;
+      let newItem = true;
+
+      for (let i = 0; i < cart.length; i++) {
+          if (cart[i].product_id == req.params['id']) {
+
+              cart[i].qty = parseInt(cart[i].qty) + 1;
+              newItem = false;
+          }
+      }
+
+      if (newItem) {
+          cart.push(order);
+      }
+  }
+
+  req.session.cart = cart;
+  console.log(req.session.cart)
+  res.redirect('/');
+
+});
+
+
+
+
+
 
 
 
