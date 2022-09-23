@@ -1040,6 +1040,49 @@ router.get('/reportSalePerMonth' , isLogin, async (req,res) => {
 
 
 
+/* GET Report Sale per Product Page. */
+router.get('/reportSalePerProduct', isLogin, async (req,res) => {
+
+  let conn2 = require('./connect2');
+
+  let sql = "SELECT * FROM tb_product";
+  let [rows, fields] = await conn2.query(sql);
+
+  let arr = [];
+
+  for (let i  = 0 ; i < rows.length ; i++) {
+      let product = rows[i];
+      let id = product.id;
+      let name = product.name;
+      let barcode = product.barcode;
+
+      sql = "";
+      sql += " SELECT SUM(qty * price) AS totalPrice FROM tb_order_detail";
+      sql += " LEFT JOIN tb_order ON tb_order.id = tb_order_detail.order_id";
+      sql += " WHERE tb_order_detail.product_id = ? ";
+      sql += " AND tb_order.pay_date IS NOT NULL";
+
+      let [rows2, field2] = await conn2.query(sql,[id]);
+      let totalPrice = rows2[0].totalPrice;
+
+      let p = {
+          totalPrice: totalPrice,
+          barcode: barcode,
+          id: id,
+          name: name
+      }
+
+      arr.push(p);
+
+  } // End for
+
+  res.render('reportSalePerProduct', { arr: arr});
+});
+
+
+
+
+
 
 
 
