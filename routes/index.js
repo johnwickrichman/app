@@ -1266,6 +1266,52 @@ router.get('/deleteExportToStock/:id', (req,res) => {
 
 
 
+/* GET Report Stock Page. */
+router.get('/reportStock', isLogin, async (req,res) => {
+
+  let arr = [];
+
+  let conn2 = require('./connect2');
+
+  try {
+
+      let sql = "SELECT * FROM tb_product ORDER BY name ASC";
+
+      let [products, fields] = await conn2.query(sql);
+
+      for (let i = 0 ; i < products.length ; i++ ) {
+
+          let product = products[i];
+          let id = product.id;
+
+          sql = "SELECT SUM(qty) AS qtyIn FROM tb_stock_in WHERE product_id = ? ";
+          let [stockIn] = await conn2.query(sql, [id]);
+
+          
+          let sql2 = "SELECT SUM(qty) AS qtyOut FROM tb_stock_out WHERE product_id = ? ";
+          let [stockOut] = await conn2.query(sql2, [id]);
+
+          let objProduct = {
+              id : product.id,
+              name: product.name,
+              barcode: product.barcode,
+              qtyIn: stockIn[0].qtyIn,
+              qtyOut: stockOut[0].qtyOut
+          }
+
+          arr.push(objProduct);
+      }
+
+      res.render('reportStock', { arr: arr });
+
+  } catch (e) {
+      res.send("Error : " + e);
+  }
+
+});
+
+
+
 
 
 

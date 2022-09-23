@@ -1,0 +1,39 @@
+<%- include('header') %>
+
+
+  <div class="mt-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">รายงาน Stock สินค้า</div>
+
+
+        <table class="table table-bordered table-striped mt-3">
+          <thead>
+            <tr>
+              <th width="150">บาร์โค้ด</th>
+              <th >รายการสินค้า</th>
+              <th class="text-right" width="150">นำสินค้า เข้า</th>
+              <th class="text-right" width="250">เบิกสินค้า ออก</th>
+              <th class="text-right" width="150">ยอดคงเหลือ</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% arr.forEach( (item) => { %>
+            <tr>
+              <td ><%= item.barcode %></td>
+              <td ><%= item.name %></td>
+              <td class="text-right"><%= item.qtyIn %></td>
+              <td class="text-right"><%= item.qtyOut %></td>
+              <td class="text-right"><%= item.qtyIn - item.qtyOut %></td>
+            </tr>
+
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+<%- include('footer') %>
