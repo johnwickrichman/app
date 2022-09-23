@@ -83,11 +83,16 @@
 
   </head>
   <body>
-    <% if (session.token != undefined) { %>
+    
 
     <div class="h4 float-left">E-Commerce Back Office</div>
     <div class="float-right">
-        [ <%= session.name %> ]
+
+      <% if (session.token != undefined) { %>
+
+        <a class="btn btn-white text-info sarabun-500 mt-4" href="#">
+          <span class="sarabun-500">[ <%= session.name %> ]</span> </a>
+        
 
         <a class="btn btn-info sarabun-500" href="/changeProfile">
             <span class="material-symbols-outlined material-icons">
@@ -104,17 +109,30 @@
                 ออกจากระบบ
 
         </a>
+
+        <% } %>
+
     </div>
     <div class="clearfix"></div>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-2">
         <div class="container-fluid">
-          <a class="navbar-brand" href="/home">Home</a>
+          <a class="navbar-brand" href="/home">
+            <span class="material-icons material-symbols-outlined mr-2">
+              storefront
+              </span> <span class="sarabun-600">ECOMMERCE</span>
+          </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+
+
+              <% if (session.token != undefined) { %>
+
+
+
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="/groupProduct">ประเภทสินค้า</a>
               </li>
@@ -131,6 +149,61 @@
                     </span>
                     ข้อมูลผู้ใช้งานระบบทั้งหมด</a>
               </li>
+
+
+              <li class="nav-item dropdown mr-3">
+                <a class="nav-link dropdown-toggle sarabun-500" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <span class="material-icons material-symbols-outlined"> description </span>
+                    รายงาน
+                </a>
+
+                <div class="dropdown-menu" style="background-color: #ffffff;">
+                <a class="dropdown-item" href="/reportSalePerDay">รายงานยอดขาย รายวัน</a>
+                <a class="dropdown-item" href="/reportSalePerMonth">รายงานยอดขาย รายเดือน</a>
+                <a class="dropdown-item" href="/reportSalePerProduct">รายงานยอดขาย แยกตามสินค้า</a>
+                <a class="dropdown-item" href="/reportStock">รายงานสต็อคสินค้า</a>
+                </div>
+            </li>
+
+
+
+
+            <li class="nav-item dropdown mr-3">
+                <a class="nav-link dropdown-toggle sarabun-500" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <span class="material-icons material-symbols-outlined"> inventory </span>
+                    สต็อกสินค้า
+                </a>
+
+                <div class="dropdown-menu" style="background-color: #ffffff;">
+                <a class="dropdown-item" href="/importToStock">รับสินค้าเข้าสต็อก</a>
+                <a class="dropdown-item" href="/exportFromStock">เบิกสินค้าออกจากสต็อก</a>
+                </div>
+            </li>
+
+
+            <% } else { %>
+
+
+              <li class="nav-item active mr-3">
+                <a class="nav-link sarabun-500 " href="/login ">
+                    <span class="material-icons material-symbols-outlined">
+                        login
+                        </span> เข้าสู่ระบบ </a>
+            </li>
+            <li class="nav-item active mr-3">
+                <a class="nav-link sarabun-500 " href="/register ">
+                    <span class="material-icons material-symbols-outlined">
+                        person_add
+                        </span> สมัครสมาชิก
+                </a>
+            </li>
+
+
+            <% } %>
+
+
+
+              
             </ul>
             
           </div>
@@ -138,6 +211,4 @@
       </nav>
 
       </div>
-
-      <% } %>
 

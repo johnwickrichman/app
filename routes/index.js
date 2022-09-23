@@ -87,6 +87,17 @@ router.get('/', async function(req, res, next) {
 
 });
 
+
+
+
+/* GET Register page. */
+router.get("/register", (req, res) => {
+  res.render("register");
+})
+
+
+
+
 /* GET login page. */
 router.get("/login", (req, res) => {
   res.render("login");
