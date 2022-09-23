@@ -44,8 +44,8 @@ router.use((req, res, next) => {
 
 
 
+
 /* GET home page. */
-/* Show Homepage */
 router.get('/', async function(req, res, next) {
 
   let conn2 = require('./connect2');
