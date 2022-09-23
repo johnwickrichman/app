@@ -857,6 +857,32 @@ router.get('/orderInfo/:id', isLogin, (req, res) => {
 
 
 
+/* GET Delete Order Execute. */
+router.get('/deleteOrder/:id',isLogin, (req,res) => {
+
+  let did = req.params['id'];
+
+  let sql = "DELETE FROM tb_order WHERE id = ?";
+
+  conn.query(sql,[did],(err,result) => {
+      if (err) throw err;
+
+      let sql2 = "DELETE FROM tb_order_detail WHERE order_id=?";
+      conn.query(sql2,[did],(err,result) => {
+          if (err) throw err;
+
+          res.redirect('/order');
+      })
+
+
+  });
+});
+
+
+
+
+
+
 
 
 
