@@ -745,6 +745,68 @@ router.post('/editItemInCart/:id', (req, res) => {
 
 
 
+/* GET Confirm Order. */
+router.get('/comFirmOrder', (req, res) => {
+
+  res.render('comFirmOrder');
+});
+
+
+
+/* POST Confirm Order Execute. */
+router.post('/comFirmOrder', async(req, res) => {
+
+  conn2 = require('./connect2');
+
+  //Insert Order
+  try {
+
+      let sql = "INSERT INTO tb_order SET name=?, address=?, phone=?, created_date=now()";
+
+      let name = req.body['name'];
+      let address = req.body['address'];
+      let phone = req.body['phone'];
+
+      let [rows, fields] = await conn2.query(sql, [name, address, phone]);
+
+      let lastID = rows.insertId;
+      let carts = req.session.cart;
+
+      for (let i = 0; i < carts.length; i++) {
+          // Find product Data
+          let sqlFindProduct = "SELECT price FROM tb_product WHERE id=? ";
+          let productID = carts[i].product_id;
+
+          let [rows, fields] = await conn2.query(sqlFindProduct, [productID]);
+          let productPrice = rows[0].price;
+
+          let orderID = lastID;
+          let productQTY = carts[i].qty;
+
+          let sqlOrderDetail = "INSERT INTO tb_order_detail SET order_id=?, product_id=?, qty=?, price=? ";
+
+          await conn2.query(sqlOrderDetail, [orderID, productID, productQTY, productPrice]);
+      }
+
+  } catch (err) {
+      res.send(err);
+  }
+
+  req.session.cart = [];
+  res.redirect('/confirmOrderSuccess');
+});
+
+
+
+
+/* GET Confirm Order Success. */
+router.get('/confirmOrderSuccess', (req, res) => {
+  res.render('confirmOrderSuccess');
+});
+
+
+
+
 
 
 
