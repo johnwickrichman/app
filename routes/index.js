@@ -1082,6 +1082,35 @@ router.get('/reportSalePerProduct', isLogin, async (req,res) => {
 
 
 
+/* GET Tracking Order Page. */
+router.get('/trackOrder', (req,res) => {
+    
+  res.render('trackOrder', { orders: [] });
+});
+
+
+
+
+/* POST Tracking Order Execute. */
+router.post('/trackOrder', (req,res) => {
+
+  let phone = req.body['phone'];
+
+  let sql = "SELECT * FROM tb_order WHERE phone = ? AND pay_date IS NOT NULL";
+
+  conn.query(sql, [phone], (err,results) => {
+      if (err) throw err;
+
+      console.log(results);
+
+      res.render('trackOrder',{ orders: results });
+  })
+
+});
+
+
+
+
 
 
 
