@@ -998,6 +998,54 @@ router.get('/reportSalePerDay' , isLogin , async (req,res) => {
 
 
 
+/* GET Report Sale per Month Page. */
+router.get('/reportSalePerMonth' , isLogin, async (req,res) => {
+
+  let conn2 = require('./connect2');
+
+  let year_current = dayjs().year();
+  let year = dayjs().year();
+
+  let arr = [];
+  let arrYears = [];
+
+  if(req.query['year'] != undefined) {
+      year = req.query['year'];
+  }
+
+
+  for (let i = 1; i <= 12 ; i++) {
+
+      let sql = "";
+      sql += " SELECT SUM(qty * price) AS totalPrice FROM tb_order_detail";
+      sql += " LEFT JOIN tb_order ON tb_order.id = tb_order_detail.order_id";
+      sql += " WHERE MONTH(tb_order.pay_date) = ?";
+      sql += " AND YEAR(tb_order.pay_date) = ?";
+
+      let [rows, fields] = await conn2.query(sql,[i, year]);
+
+      arr.push(rows[0].totalPrice);
+
+  } // End for
+
+  for (let i = year_current-10; i <= year_current; i++) {
+      arrYears.push(i);
+  } // End for
+
+  res.render( 'reportSalePerMonth', {arr: arr, y: year, arrYears: arrYears} );
+
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 
