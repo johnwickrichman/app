@@ -823,6 +823,40 @@ router.get('/order', isLogin, (req, res) => {
 
 
 
+/* GET Order Info Page. */
+router.get('/orderInfo/:id', isLogin, (req, res) => {
+
+  let orderID = req.params['id'];
+
+  let totalQty = 0;
+  let totalPrice = 0;
+
+  let sql = " " +
+      " SELECT tb_order_detail.* , tb_product.barcode ," +
+      " tb_product.name , tb_product.img" +
+      " from tb_order_detail" +
+      " LEFT JOIN tb_product ON tb_product.id = tb_order_detail.product_id" +
+      " WHERE tb_order_detail.order_id = ?" +
+      " ORDER BY tb_order_detail.id DESC ";
+
+  conn.query(sql, [orderID], (err, result) => {
+      if (err) throw err;
+
+      for (let i = 0; i < result.length; i++) {
+          let orderInfo = result[i];
+
+          totalQty += orderInfo.qty;
+          totalPrice += (orderInfo.qty * orderInfo.price);
+      }
+
+      res.render('orderInfo', { orderDetails: result, totalQty: totalQty, totalPrice: totalPrice });
+  });
+
+});
+
+
+
+
 
 
 
