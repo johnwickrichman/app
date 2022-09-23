@@ -632,6 +632,48 @@ router.get('/addToCart/:id', (req, res) => {
 
 
 
+/* GET Show My Cart Execute. */
+router.get('/myCart', async(req, res) => {
+
+  let conn = require('./connect2');
+  let cart = req.session.cart;
+  let products = [];
+  let totalQty = 0;
+  let totalPrice = 0;
+
+  if (cart.length > 0) {
+
+      for (let i = 0; i < cart.length; i++) {
+
+          let c = cart[i];
+          let sql = "SELECT * FROM tb_product WHERE id=?";
+          let params = [c.product_id];
+
+          let [rows, fields] = await conn.query(sql, params);
+          let product = rows[0];
+
+          let p = {
+              qty: c.qty,
+              id: product.id,
+              barcode: product.barcode,
+              name: product.name,
+              price: product.price,
+              img: product.img
+          }
+          products.push(p);
+
+          totalQty += parseInt(c.qty);
+          totalPrice += (c.qty * product.price);
+
+      } // End For
+      res.render('myCart', { products: products, totalQty: totalQty, totalPrice: totalPrice });
+
+  } // End If
+});
+
+
+
+
 
 
 

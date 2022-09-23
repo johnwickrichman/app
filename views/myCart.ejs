@@ -1,0 +1,74 @@
+<%- include('header_index') %>
+
+    <div class="container mt-3">
+
+        <div class="h4">ตระกร้าสินค้า</div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th width="140"></th>
+                    <th width="150">ภาพสินค้า</th>
+                    <th width="100">บาร์โค้ด</th>
+                    <th>รายการ</th>
+                    <th width="100" class="text-right">ราคา</th>
+                    <th width="100" class="text-right">จำนวน</th>
+                    <th width="100" class="text-right">ยอดรวม</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% products.forEach((product) => { %>
+                    <tr>
+                        <td class="text-center">
+                            <a class="btn btn-info" href="/editItemInCart/<%= product.id %>">
+                                <span class="material-icons material-symbols-outlined ">
+                                    edit
+                                    </span>
+                            </a>
+                            <a class="btn btn-danger" href="/deleteItemInCart/<%= product.id %>" onclick="return confirm('คุณต้องการลบจริงๆใช่มั้ยคะ ?')">
+                                <span class="material-icons material-symbols-outlined ">
+                                    close
+                                    </span>
+                            </a>
+                        </td>
+                        <td><img src="images/<%= product.img %>" width="150"></td>
+                        <td>
+                            <%= product.barcode %>
+                        </td>
+                        <td>
+                            <%= product.name %>
+                        </td>
+                        <td class="text-right">
+                            <%= product.price %>
+                        </td>
+                        <td class="text-right">
+                            <%= product.qty %>
+                        </td>
+                        <td class="text-right">
+                            <%= product.qty * product.price %>
+                        </td>
+                    </tr>
+
+                    <% }) %>
+            </tbody>
+
+        </table>
+
+        <div class="text-center">
+            รวม
+            <%= totalQty %> ชิ้น รวมเป็นเงิน
+                <%= totalPrice %> บาท
+        </div>
+
+        <div class="text-center">
+            <a href="/comFirmOrder" class="btn btn-info mt-3 btn-lg">
+                ยืนยันการซื้อ
+                <span class="material-icons material-symbols-outlined">
+                    navigate_next
+                    </span></a>
+        </div>
+
+    </div>
+
+    <%- include( 'footer_index') %>
